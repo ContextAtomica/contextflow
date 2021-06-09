@@ -16,7 +16,7 @@ const ContextValueModal = ({
   const [draggedValue, setDraggedValue] = useState();
   const [showButton, setShowButton] = useState(false);
 
-  useEffect(async () => {
+  useEffect(() => {
     setShow(showContextValueModal);
   }, [showContextValueModal]);
 

@@ -1,28 +1,52 @@
 import React, { useContext } from "react";
 import "./header.css";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { UserContext } from "../../provider/UserProvider";
-import { useHistory } from "react-router-dom";
-import { Navbar, Nav } from "react-bootstrap";
+import { Navbar, Nav, Dropdown } from "react-bootstrap";
 import logo from "../../assets/logo.png";
+import axios from "axios";
+import profile from "../../assets/profile.png";
 
 const Header = () => {
-  const history = useHistory();
   const value = useContext(UserContext);
   const [userData, setUserData] = value.user;
-  const LogOut = () => {
-    const user2 = {
-      _id: "demo",
-      name: "demo",
-      email: "demo@gmail.com",
-    };
-    setUserData({
-      token: undefined,
-      user: undefined,
-      user2,
-    });
-    localStorage.setItem("auth-token", "");
-    history.push("/");
+  const history = useHistory();
+  const LogOut = async () => {
+    try {
+      await axios.get("http://localhost:8080/user/logout");
+      localStorage.removeItem("firstLogin");
+      localStorage.setItem("refresh_token", "");
+      window.location.href = "/";
+    } catch (err) {
+      window.location.href = "/";
+    }
+  };
+  const userLink = () => {
+    return (
+      <>
+        <Dropdown>
+          <Dropdown.Toggle
+            style={{ background: "#0b615e" }}
+            id="dropdown-basic"
+          >
+            {userData.user.name}
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu style={{ background: "#F0FFFF" }}>
+            <Dropdown.Item onClick={() => history.replace("/profile")}>
+              Profile
+            </Dropdown.Item>
+            <Dropdown.Item
+              onClick={() => {
+                LogOut();
+              }}
+            >
+              Logout
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </>
+    );
   };
   return (
     <Navbar collapseOnSelect expand="lg" className="nav" variant="dark">
@@ -34,66 +58,50 @@ const Header = () => {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto">
-          <Nav.Link
-            as={Link}
-            to="/contextlist"
-            style={{
-              textDecoration: "none",
-              color: "white",
-              fontSize: "15px",
-            }}
-          >
-            Context List
-          </Nav.Link>
-
-          <Nav.Link
-            as={Link}
-            to="/anchor"
-            style={{
-              textDecoration: "none",
-              color: "white",
-              fontSize: "15px",
-            }}
-          >
-            Anchor
-          </Nav.Link>
-          <Nav.Link
-            as={Link}
-            to="/search-context"
-            style={{
-              textDecoration: "none",
-              color: "white",
-              fontSize: "15px",
-            }}
-          >
-            Search context
-          </Nav.Link>
-        </Nav>
-        <Nav>
-          {userData.user ? (
-            <>
-              <li
-                style={{
-                  cursor: "pointer",
-                  textDecoration: "none",
-                }}
-                onClick={LogOut}
-              >
-                Logout
-              </li>
-            </>
-          ) : (
+          {userData.user !== undefined ? (
             <>
               <Nav.Link
                 as={Link}
-                to="login"
-                style={{
-                  cursor: "pointer",
-                  textDecoration: "none",
-                }}
+                to="/contextlist"
+                style={{ color: "#F0FFFF" }}
+                className="nav-item"
               >
-                <li>Sign in</li>
+                Context List
               </Nav.Link>
+
+              <Nav.Link
+                as={Link}
+                to="/anchor"
+                style={{ color: "#F0FFFF" }}
+                className="nav-item"
+              >
+                Anchor
+              </Nav.Link>
+              <Nav.Link
+                as={Link}
+                to="/search-context"
+                style={{ color: "#F0FFFF" }}
+                className="nav-item"
+              >
+                Search
+              </Nav.Link>
+            </>
+          ) : (
+            ""
+          )}
+        </Nav>
+        <Nav>
+          {userData.user !== undefined ? (
+            userLink()
+          ) : (
+            <>
+              <span
+                className="signin"
+                onClick={() => history.replace("/login")}
+              >
+                <img src={profile} alt="icon" />
+                Sign In
+              </span>
             </>
           )}
         </Nav>

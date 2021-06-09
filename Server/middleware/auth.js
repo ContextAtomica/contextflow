@@ -1,22 +1,19 @@
-const jwt = require('jsonwebtoken');
-const config = require('../config');
-const {JWT_SECRET} = config;
+const jwt = require("jsonwebtoken");
 
-function auth(req, res, next) {
-  const token = req.header('x-auth-token');
-
-  // Check for token
-  if (!token)
-    return res.status(401).json({msg: 'No token, authorization denied'});
-
+const auth = (req, res, next) => {
   try {
-    // Verify token
-    const decoded = jwt.verify(token, JWT_SECRET);
-    // Add user from payload
-    req.user = decoded;
-    next();
-  } catch (e) {
-    res.status(400).json({msg: 'Token is not valid'});
+    const token = req.header("Authorization");
+    if (!token) return res.status(400).json({ msg: "Invalid Authentication." });
+
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+      if (err) return res.status(400).json({ msg: "Invalid Authentication." });
+
+      req.user = user;
+      next();
+    });
+  } catch (err) {
+    return res.status(500).json({ msg: err.message });
   }
-}
+};
+
 module.exports = auth;

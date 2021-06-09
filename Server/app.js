@@ -1,12 +1,14 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
+const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const config = require("./config");
 const { PORT } = config;
 // routes
 const AnchorRoutes = require("./routes/anchor");
-const AuthUserRoutes = require("./routes/auth-user");
+const AuthUserRoutes = require("./routes/userRoutes");
 const WordPhraseRoutes = require("./routes/word-phrase");
 const ContextflowRoutes = require("./routes/contextflow");
 const ContextValue = require("./routes/contextvalue");
@@ -14,6 +16,7 @@ const ContextValue = require("./routes/contextvalue");
 const { MONGO_URI, MONGO_DB_NAME } = config;
 
 const app = express();
+app.use(cookieParser());
 app.use(cors());
 app.use(express.json());
 const db = `${MONGO_URI}/${MONGO_DB_NAME}`;
@@ -29,7 +32,7 @@ mongoose
   .catch((err) => console.log(err));
 
 app.use("/", AnchorRoutes);
-app.use("/", AuthUserRoutes);
+app.use("/user", AuthUserRoutes);
 app.use("/", WordPhraseRoutes);
 app.use("/", ContextflowRoutes);
 app.use("/", ContextValue);

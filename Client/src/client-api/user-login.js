@@ -1,16 +1,19 @@
-import axios from 'axios';
-import {BASE_URL} from '../config/axios-config';
+import axios from "axios";
+import { BASE_URL } from "../config/axios-config";
 
 const client = axios.create({
   baseURL: BASE_URL,
 });
 
-export const SignUp = (payload) => client.post(`/signup`, payload);
-export const Login = (payload) => client.post(`/login`, payload);
+export const UserRegister = (payload) => client.post(`/user/register`, payload);
+export const UserLogin = (payload) => client.post(`/user/login`, payload);
 
+export const getAccessToken = (payload) =>
+  client.post(`/user/refresh_token`, payload);
 const userLoginClientApi = {
-  SignUp,
-  Login,
+  UserRegister,
+  UserLogin,
+  getAccessToken,
 };
 
 export default userLoginClientApi;
