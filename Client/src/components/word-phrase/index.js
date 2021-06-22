@@ -33,6 +33,17 @@ const WordPhrase = ({
   const [dataToBeChange, setDataChange] = useState();
   const [selected, isSelected] = useState(false);
   const [IsDelete, SetDelete] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+
+  //getting all data from db
+  useEffect(() => {
+    (async () => {
+      await WordPhraseClientApi.getAllWordPhrase().then((result) => {
+        setData(result.data);
+      });
+    })();
+  }, [refresh, loading, setLoading, value]);
+
   useEffect(() => {
     if (value !== null) {
       setDataChange(value.wp);
@@ -52,6 +63,7 @@ const WordPhrase = ({
       }
       if (setSelectmodelEntity) {
         const obj = { model_entity: value.wp };
+
         setSelectmodelEntity(obj);
       }
       if (setDomain) {
@@ -60,11 +72,15 @@ const WordPhrase = ({
       }
       if (setFlow) {
         const obj = { flow: value.wp };
+        console.log(obj);
         setFlow(obj);
       }
       if (setAddModulesData) {
         setAddModulesData(value);
       }
+      // if (setModel) {
+      //   setModel(datas);
+      // }
     }
   }, [
     value,
@@ -97,24 +113,25 @@ const WordPhrase = ({
   }, [selectValue, setSelectDomain, setSelectFlow, setSelectmodelEntity]);
 
   //hendle onchange for select creatable form and saving the selected data to session storage
-  const handleChange = (data) => {
+  const handleChange = (datas) => {
     var c_data = {};
     var key_name = name;
     isSelected(true);
-    if (data) {
-      c_data[key_name] = data.wp;
+    if (datas) {
+      c_data[key_name] = datas.wp;
     }
-    setValue(data);
+    setValue(datas);
     if (setModel) {
-      setModel(data);
+      console.log(datas);
+      setModel(datas);
     }
   };
   //creating new anchor and saving to the db
-  const handleCreate = (data) => {
+  const handleCreate = (datas) => {
     if (user) {
       setLoading(true);
-      data = data.replace(/\s{2,}/g, " ");
-      let d = { wp: data, owner: user._id };
+      datas = datas.replace(/\s{2,}/g, " ");
+      let d = { wp: datas, owner: user._id };
 
       WordPhraseClientApi.saveWordPhrase(d).then((res) => {
         var sd = {
@@ -125,9 +142,10 @@ const WordPhrase = ({
           label: res.data.data.wp,
           value: res.data.data.wp,
         };
+        data.push(sd);
+        setData(data);
         setLoading(false);
         setValue(sd);
-        setLoading(false);
       });
     } else {
       alert("Please log in");
@@ -139,15 +157,6 @@ const WordPhrase = ({
     setDataChange(e.target.value);
   };
 
-  //getting all data from db
-  useEffect(() => {
-    (async () => {
-      await WordPhraseClientApi.getAllWordPhrase().then((result) => {
-        setData(result.data);
-      });
-    })();
-  }, [loading, setLoading]);
-
   //passing an extra attribute named "label" to the array of obects as it needed by creatable components
   useEffect(() => {
     (async () => {
@@ -156,7 +165,6 @@ const WordPhrase = ({
         e.value = e.wp;
         return e;
       });
-
       setLabel(wdata);
     })();
   }, [data]);
@@ -185,6 +193,7 @@ const WordPhrase = ({
           owner: res.data.data.owner,
           label: res.data.data.wp,
         };
+
         setValue(sd);
         setLoading(false);
       }
@@ -219,14 +228,18 @@ const WordPhrase = ({
       width: "260px",
     }),
   };
+
+  const refreshComp = () => {
+    setRefresh(!refresh);
+  };
   return (
     <div
       className="select-wrapper-2"
-      style={{ background: background ? background : "blue" }}
+      style={{ background: background ? background : "tomato" }}
     >
       <div>
         <div className="form-wrapper-2">
-          <p>
+          <p style={{ color: "white" }}>
             {heading ? (
               <>
                 <b> {heading}</b>
@@ -301,7 +314,7 @@ const WordPhrase = ({
         {/* this is the creatable components with some basic inline css */}
         {/* <div className="select-inner-wrapper"> */}
         <Row>
-          <div className="creatable-2">
+          <div className="creatable-2" onClick={() => refreshComp()}>
             {isMulti ? (
               <CreatableSelect
                 maxMenuHeight={200}

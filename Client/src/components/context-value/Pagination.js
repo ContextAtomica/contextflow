@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Row } from "react-bootstrap";
 import "./ContextValue.css";
+import UploadImage from "./UploadImage.js";
 
 const Pagination = ({
   showPerPage,
   onPaginationChange,
   total,
   setShowButton,
+  setEntityImage,
 }) => {
   const [counter, setCounter] = useState(1);
 
@@ -36,6 +38,9 @@ const Pagination = ({
       <button className="prev-button" onClick={() => onButtonClick("prev")}>
         Prev
       </button>
+      <div style={{ marginTop: "10px" }}>
+        <UploadImage setEntityImage={setEntityImage} />
+      </div>
       <button className="next-button" onClick={() => onButtonClick("next")}>
         Next
       </button>

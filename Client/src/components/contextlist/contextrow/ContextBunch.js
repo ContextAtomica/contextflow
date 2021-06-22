@@ -14,6 +14,7 @@ import {
   getContextValue,
   // getAllContextValue,
 } from "../../../client-api/contextflow";
+
 // import ContextValueModal from "../../context-value/ContextValueModal";
 const ContextBunch = ({
   context,
@@ -95,14 +96,6 @@ const ContextBunch = ({
     setShow(true);
   };
 
-  // const contextValuePopUp = async (attention) => {
-  //   await getAllContextValue({ id: context._id }).then((res) => {
-  //     setcontextAllvalue(res.data);
-  //   });
-  //   setAtn(attention);
-  //   setShowContextValueModal(true);
-
-  // };
   return (
     <div>
       <PopUpForm
@@ -112,18 +105,8 @@ const ContextBunch = ({
         contextValue={context_value}
         valueData={contextValueDataFromServer}
       />
-      {/* <ContextValueModal
-        showContextValueModal={showContextValueModal}
-        setShowContextValueModal={setShowContextValueModal}
-        contextAllvalue={contextAllvalue}
-        context={context}
-        atn={atn}
-        contxts={contxts}
-      /> */}
-      <Container
-        fluid
-        // style={{ maxHeight: "200px", overflow: "auto" }}
-      >
+
+      <Container fluid>
         <DragDropContext
           onDragEnd={(param) => {
             setDrag(true);
@@ -166,34 +149,28 @@ const ContextBunch = ({
                                 {attention}
                               </li>{" "}
                               <div className="button-container">
-                                {/* <Button
-                                  variant="primary"
-                                  onClick={() => contextValuePopUp(attention)}
-                                >
-                                  f
-                                </Button> */}
-                                <Button
-                                  variant="warning"
-                                  // className="change-button"
+                                <button
+                                  className="button-bunch"
                                   onClick={() => {
                                     contextValue(attention);
                                   }}
                                 >
                                   v
-                                </Button>
-                                <Button
+                                </button>
+                                <button
                                   onClick={() => contextChange(attention)}
                                   variant="success"
-                                  // className="change-button"
+                                  className="button-bunch"
                                 >
                                   C
-                                </Button>
-                                <Button
+                                </button>
+                                <button
+                                  className="button-bunch"
                                   onClick={() => deleteContextById(attention)}
                                   variant="danger"
                                 >
                                   D
-                                </Button>
+                                </button>
                               </div>
                             </div>
                           </div>

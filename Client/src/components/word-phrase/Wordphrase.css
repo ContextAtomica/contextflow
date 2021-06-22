@@ -1,7 +1,9 @@
 .select-wrapper-2 {
   width: 340px;
   margin: auto;
-  border-radius: 3%;
+  text-align: center;
+
+  /* border-radius: 3%; */
 }
 .button-wrapper-2 {
   height: 38px;

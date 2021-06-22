@@ -250,7 +250,6 @@ router.post("/google_login", async (req, res) => {
       res.json({ msg: "Login success!", refresh_token: refresh_token });
     }
   } catch (err) {
-    console.log(err.message);
     return res.status(500).json({ msg: err.message });
   }
 });

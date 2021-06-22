@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import ContextValueList from "./ContextValueList";
-import { updateContextValue } from "../../client-api/contextflow";
+import {
+  updateContextValue,
+  saveContextValueImg,
+} from "../../client-api/contextflow";
 
 const ContextValueModal = ({
   showContextValueModal,
@@ -13,8 +16,10 @@ const ContextValueModal = ({
 }) => {
   const handleClose = () => setShowContextValueModal(false);
   const [show, setShow] = useState(false);
-  const [draggedValue, setDraggedValue] = useState();
+  const [draggedValue, setDraggedValue] = useState(false);
   const [showButton, setShowButton] = useState(false);
+  const [entityImage, setEntityImage] = useState(false);
+  const [currentWp, seturrentWp] = useState();
 
   useEffect(() => {
     setShow(showContextValueModal);
@@ -25,32 +30,44 @@ const ContextValueModal = ({
     setShowButton(value);
   };
   const saveUpdatedValue = () => {
-    updateContextValue(draggedValue).then((res) => {
-      console.log(res);
-    });
+    if (draggedValue) {
+      updateContextValue(draggedValue).then((res) => {
+        console.log(res);
+      });
+    } else if (entityImage) {
+      saveContextValueImg({
+        id: context._id,
+        wp: currentWp,
+        entityImage: entityImage,
+      }).then((res) => {
+        setEntityImage(false);
+      });
+    }
     setShowButton(false);
   };
   return (
     <div>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          {/* <Modal.Title></Modal.Title> */}
+          <Modal.Title style={{ height: "5px" }}></Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <ContextValueList
             contextAllvalue={contextAllvalue}
             context={context}
-            atn={atn}
+            // atn={atn}
+            setEntityImage={setEntityImage}
             contxts={contxts}
             getUpdatedValue={getUpdatedValue}
             setShowButton={setShowButton}
+            seturrentWp={seturrentWp}
           />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          {showButton ? (
+          {showButton || entityImage ? (
             <Button variant="primary" onClick={() => saveUpdatedValue()}>
               Save Changes
             </Button>

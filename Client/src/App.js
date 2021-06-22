@@ -26,8 +26,7 @@ function App() {
             <Route exact path="/" component={LandingPage} />
             <Route path="/anchor" component={Anchor} />
             <Route path="/contextlist" component={ContextList} />
-            {/* <Route path="/sign-up" component={SignUp} />
-            <Route path="/login" component={LogIn} /> */}
+
             <Route path="/search-context" component={SearchContext} />
 
             <Route path="/login" component={Login} exact />

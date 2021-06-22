@@ -5,11 +5,10 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 const AnchoredHeader = ({ add, addModule, setAdd }) => {
   var flow_anchor = JSON.parse(sessionStorage.getItem("FlowAnchor"));
   var domain_anchor = JSON.parse(sessionStorage.getItem("DomainAnchor"));
-  // var user_anchor = JSON.parse(sessionStorage.getItem("UserAnchor"));
   var entity_anchor = JSON.parse(sessionStorage.getItem("Entity_Anchor"));
 
   return (
-    <Container fluid>
+    <Container fluid className="anchored-header">
       <Row style={{ display: "flex", flexDirection: "row" }}>
         <Col xs={3}>
           <p>{domain_anchor ? <b> {domain_anchor.anchor} </b> : "Domain"}</p>
@@ -24,7 +23,7 @@ const AnchoredHeader = ({ add, addModule, setAdd }) => {
             </p>
           </div>
         </Col>
-        <Col xs={4}>
+        <Col xs={4} style={{ justifyContent: "space-around" }}>
           <div className="sub-head">
             <p>
               <b>Type</b>

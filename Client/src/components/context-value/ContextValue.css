@@ -2,9 +2,10 @@
   width: 100%;
   display: flex;
   padding-left: 50px;
+  justify-content: space-around;
 }
 .next-button {
-  margin-left: 66%;
+  /* margin-left: 66%; */
   background: #6495ed;
   border-radius: 5px;
   margin-top: 10px;

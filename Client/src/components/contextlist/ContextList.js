@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import AddContext from "./AddNewContext";
-import { getAllContextFlow } from "../../client-api/contextflow";
+import { getFilteredContextFlow } from "../../client-api/contextflow";
 import "./context_flow.css";
 import ErrorNotice from "../Notify/ErrorNotice";
 import { UserContext } from "../../provider/UserProvider";
@@ -31,7 +31,7 @@ const ContextFlow = () => {
         domainAnchor: domainAnchor,
         userAnchor: userAnchor,
       };
-      const data = await getAllContextFlow(anchorObj);
+      const data = await getFilteredContextFlow(anchorObj);
       setContextData(data.data.arr);
     })();
   }, [setAdd, add, addModule, setAddModule, refresh]);
@@ -55,22 +55,15 @@ const ContextFlow = () => {
           </div>
         ) : null}
       </div>
-      <div className="user-container">
-        {user ? (
-          <p>
-            Username : <b>{user.name}</b>{" "}
-          </p>
-        ) : null}
-      </div>
+
       <div style={{ marginTop: "10px" }}>
         {add ? <AddContext setError={setError} setAdd={setAdd} /> : null}
       </div>
       <div className="context-wrapper">
         <AnchoredHeader setAdd={setAdd} add={add} addModule={addModule} />
-        <hr />
 
         {contextData.map((context, index) => (
-          <div key={index}>
+          <div key={index} style={{ overflowX: "auto" }}>
             <ContextRow context={context} setRefresh={setRefresh} />
           </div>
         ))}

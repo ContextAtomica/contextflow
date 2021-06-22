@@ -164,6 +164,34 @@ router.get("/get-resolution-pattern", async (req, res) => {
   res.send(arr);
 });
 
+router.get("/get-all-resolution-pattern", async (req, res) => {
+  const Rarr = await ResolutionPatternCollection.find({});
+
+  for (let i of Rarr) {
+    i.flow_anchor = await getAnchorById({
+      anchor: ObjectId(i.flow_anchor),
+      collection: "flowanchor",
+    });
+    i.domain_anchor = await getAnchorById({
+      anchor: ObjectId(i.domain_anchor),
+      collection: "domainanchor",
+    });
+    i.resolution_pattern = await getAnchorById({
+      anchor: ObjectId(i.resolution_pattern),
+      collection: "resolutionpattern",
+    });
+    i.user_anchor = await getAnchorById({
+      anchor: ObjectId(i.user_anchor),
+      collection: "useranchor",
+    });
+    i.entity_anchor = await getAnchorById({
+      anchor: ObjectId(i.entity_anchor),
+      collection: "entity_anchor",
+    });
+  }
+  res.send(Rarr);
+});
+
 module.exports = router;
 
 const getAnchorById = async (data) => {

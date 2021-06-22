@@ -211,6 +211,33 @@ router.put("/update-context-value", async (req, res) => {
     }
   });
 });
+router.post("/cv-image-upload", async (req, res) => {
+  try {
+    const { id, wp, entityImage } = req.body;
+    console.log(id, wp, entityImage);
+    const wp_id = await WordPhrases.findOne({ wp: wp });
+
+    const ctx = await ContextValue.findOne({ _id: "_v".concat(id) });
+    const value = JSON.parse(
+      ctx.contextvalue[wp_id._id].replace(/<[^>]+>/g, "")
+    );
+    value.image = entityImage;
+    ctx.contextvalue[wp_id._id] = `<p>${JSON.stringify(value)}</p>`;
+    const updatedCtx = new ContextValue(ctx);
+
+    await updatedCtx
+      .save()
+      .then(() => {
+        res.send({ success: true });
+      })
+      .catch((err) => {
+        res.send({ error: true });
+      });
+  } catch (err) {
+    return res.status(500).json({ msg: err.message });
+  }
+});
+
 module.exports = router;
 
 function getIds(d) {

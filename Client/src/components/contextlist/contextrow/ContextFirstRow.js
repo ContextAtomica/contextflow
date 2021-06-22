@@ -50,7 +50,7 @@ const ContextFirstRow = ({ context, setRefresh }) => {
 
       <Container fluid>
         {contxts.map((contxt, i) => (
-          <Row key={i} style={{ background: "#ccf2ff" }}>
+          <Row className="anchored-first-row" key={i}>
             <Col xs={3}>
               <li className="d-f-container">{contxt.domain}</li>
             </Col>
@@ -65,39 +65,40 @@ const ContextFirstRow = ({ context, setRefresh }) => {
                   </div>
                   <div className="button-container">
                     <CopyToClipboard
+                      className="square_btn"
                       text={context._id}
                       onCopy={() => setCopy(true)}
                     >
                       <button
                         title="copy context"
-                        style={{
-                          cursor: "pointer",
-                          border: "none",
-                          // background: "transparent",
-                          height: "auto",
-                          width: "auto",
-                          fontSize: "1em",
-                          marginRight: "5px",
-                        }}
+                        // style={{
+                        //   cursor: "pointer",
+                        //   border: "none",
+                        //   // background: "transparent",
+                        //   height: "auto",
+                        //   width: "auto",
+                        //   fontSize: "1em",
+                        //   marginRight: "5px",
+                        // }}
                       >
                         C
                       </button>
                     </CopyToClipboard>
-                    <Button
-                      variant="primary"
+                    <button
+                      className="square_btn"
                       onClick={() => contextValuePopUp(attention)}
                     >
                       f
-                    </Button>
-                    <Button
-                      variant="warning"
+                    </button>
+                    <button
+                      className="square_btn"
                       onClick={() => {
                         add_module(contxt);
                       }}
-                      className="change-button"
+                      // className="change-button"
                     >
                       +
-                    </Button>
+                    </button>
                   </div>
                 </>
               </div>

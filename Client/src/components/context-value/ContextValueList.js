@@ -13,6 +13,8 @@ function ContextValueList({
   contxts,
   getUpdatedValue,
   setShowButton,
+  setEntityImage,
+  seturrentWp,
 }) {
   const [contextValue, setContextValue] = useState([]);
   const [showPerPage, setShowPerPage] = useState(1);
@@ -43,18 +45,16 @@ function ContextValueList({
                   .map((post, i) => (
                     <Col xs={12} key={i}>
                       <ReactCardFlip isFlipped={flipped}>
-                        <Card
-                          border="primary"
-                          className="modal-card"
-                          // style={{ width: "25rem" }}
-                        >
+                        <Card border="primary" className="modal-card">
                           <Card.Header>{post.wp}</Card.Header>
                           <Card.Body>
                             <Value
+                              wp={post.wp}
                               post={post.value}
                               contextvalueadress={post.va}
                               posts={post}
                               getUpdatedValue={getUpdatedValue}
+                              seturrentWp={seturrentWp}
                             />
                           </Card.Body>
                           <Card.Footer>
@@ -134,6 +134,7 @@ function ContextValueList({
             <Pagination
               showPerPage={showPerPage}
               setShowButton={setShowButton}
+              setEntityImage={setEntityImage}
               onPaginationChange={onPaginationChange}
               total={
                 contextAllvalue.length !== 0

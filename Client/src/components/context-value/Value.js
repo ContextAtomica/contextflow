@@ -1,10 +1,17 @@
 import { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-const Value = ({ post, contextvalueadress, getUpdatedValue, posts }) => {
+const Value = ({
+  post,
+  contextvalueadress,
+  getUpdatedValue,
+  wp,
+  seturrentWp,
+}) => {
   const [postValue, setPostValue] = useState([]);
   const [drag, setDrag] = useState(false);
   useEffect(() => {
     setPostValue(post);
+    seturrentWp(wp);
   }, [post]);
   return (
     <div>
@@ -39,48 +46,75 @@ const Value = ({ post, contextvalueadress, getUpdatedValue, posts }) => {
                         }}
                       >
                         <div
+                          style={{ listStyle: "none" }}
                           className="content-div"
                           {...provided.dragHandleProps}
                         >
                           <li>
                             {value.type === "button" ? (
-                              <button
-                                onClick={() => console.log("button clicked")}
-                                style={{
-                                  height: `${value.height}px`,
-                                  width: `${value.width}px`,
-                                }}
-                              >
-                                {value.cValue}
-                              </button>
+                              <>
+                                {" "}
+                                <label>{value.type}</label>:
+                                <button
+                                  onClick={() => console.log("button clicked")}
+                                  style={{
+                                    height: `${value.height}px`,
+                                    width: `${value.width}px`,
+                                  }}
+                                >
+                                  {value.cValue}
+                                </button>
+                                {value.image !== undefined && (
+                                  <img src={value.image} />
+                                )}
+                              </>
                             ) : null}
                           </li>
                           <li>
-                            {value.type === "text" ? <input></input> : null}
+                            {value.type === "text" ? (
+                              <>
+                                <label>{value.type}</label>: <input />{" "}
+                                {value.image !== undefined && (
+                                  <img src={value.image} />
+                                )}
+                              </>
+                            ) : null}
                           </li>
                           <li>
                             {value.type === "label" ? (
-                              <label
-                                style={{
-                                  borderStyle: "ridge",
-                                  height: `${value.height}px`,
-                                  width: `${value.width}px`,
-                                }}
-                              >
-                                {value.cValue}
-                              </label>
+                              <>
+                                <label>{value.type}</label>:
+                                <label
+                                  style={{
+                                    borderStyle: "ridge",
+                                    height: `${value.height}px`,
+                                    width: `${value.width}px`,
+                                  }}
+                                >
+                                  {value.cValue}
+                                </label>
+                                {value.image !== undefined && (
+                                  <img src={value.image} />
+                                )}
+                              </>
                             ) : null}
                           </li>
                           <li>
                             {value.type === "invalid" ? (
-                              <label
-                                style={{
-                                  height: "50px",
-                                  width: "200px",
-                                }}
-                              >
-                                {value.cValue}
-                              </label>
+                              <>
+                                <label>{value.type}</label>:
+                                <label
+                                  style={{
+                                    height: "10px",
+                                    width: "200px",
+                                  }}
+                                >
+                                  {value.cValue}
+                                </label>
+                                {value.image !== undefined && (
+                                  <img src={value.image} />
+                                )}
+                              </>
                             ) : null}
                           </li>
                         </div>

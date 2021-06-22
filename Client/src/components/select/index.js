@@ -191,13 +191,6 @@ const SelectCurd = ({
   const length_px = value !== null ? `${len * 9 + 60}px` : "200px";
   const div_length = value !== null ? `${len * 12 + 60}px` : "340px";
   const customStyles = {
-    // control: (css) => ({
-    // ...css,
-    // width: "300px",
-    // height: "auto",
-    // background: "red",
-    // }),
-
     control: (styles) => ({
       ...styles,
       backgroundColor: "white",

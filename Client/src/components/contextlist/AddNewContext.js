@@ -17,20 +17,30 @@ const AddContext = ({ setAdd, setError }) => {
   var entity_anchor = JSON.parse(sessionStorage.getItem("Entity_Anchor"));
   const value = useContext(UserContext);
   const [userData] = value.user;
-  const user = userData.user !== undefined ? userData.user : userData.user2;
   var ModelEntity = model_entity.map(function (item) {
     return item["wp"];
   });
   const saveContext = async () => {
-    if (user) {
+    if (userData.user !== undefined) {
+      // console.log(
+      //   domain,
+      //   flow,
+      //   contexttype,
+      //   flow_anchor,
+      //   domain_anchor,
+      //   entity_anchor,
+      //   userData.user,
+      //   user_anchor,
+      //   model_entity
+      // );
       if (
-        domain &&
-        flow &&
+        domain.domain !== undefined &&
+        flow.flow !== undefined &&
         contexttype &&
         flow_anchor &&
         domain_anchor &&
         entity_anchor &&
-        user &&
+        userData.user._id &&
         user_anchor &&
         model_entity.length > 0
       ) {
@@ -42,10 +52,10 @@ const AddContext = ({ setAdd, setError }) => {
           { UserAnchor: user_anchor.anchor },
           { EntityAnchor: entity_anchor.anchor },
           { contexttype: contexttype.anchor },
-          { uid: user._id },
+          { uid: userData.user._id },
           ModelEntity,
         ];
-
+        console.log(d);
         saveContextFlow(d).then((res) => {
           setError(res.data.err);
           setAdd(false);

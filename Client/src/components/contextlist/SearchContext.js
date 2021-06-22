@@ -16,12 +16,10 @@ const SearchContext = () => {
   const [addModule] = useState(false);
   const [refresh, setRefresh] = useState(false);
   // const [error, setError] = useState();
-  const anchorObj = {
-    anchor: "all",
-  };
+
   useEffect(() => {
     (async () => {
-      const data = await getAllContextFlow(anchorObj);
+      const data = await getAllContextFlow();
       setContextData(data.data.arr);
       setSearchResults(data.data.arr);
     })();

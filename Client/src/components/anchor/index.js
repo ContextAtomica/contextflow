@@ -5,7 +5,7 @@ import ErrorNotice from "../Notify/ErrorNotice";
 import { saveResolutionPattern } from "../../client-api/anchor";
 import { getResolutionPattern } from "../../client-api/anchor";
 import { Container, Row, Col, Button } from "react-bootstrap";
-
+import { ANCHOR_DB } from "../../constants/Anchor.constant";
 const Anchor = () => {
   const [domain, setDomain] = useState();
   const [resolution, setResolution] = useState(false);
@@ -14,14 +14,12 @@ const Anchor = () => {
   const [user, setUser] = useState();
   const [error, setError] = useState();
   const [ResolutionPattern, setResolutionPattern] = useState();
-  // const [savePattern, setPattern] = useState(false);
   const [data, setData] = useState([]);
   const [domainValue, setDomainValue] = useState();
   const [flowValue, setFlowValue] = useState();
   const [entityValue, setEntityValue] = useState();
   const savePatternToDb = () => {
     if (domain && flow && ResolutionPattern && user) {
-      // setPattern(true);
       var obj = {
         domainAnchor: domain.anchor,
         flowAnchor: flow.anchor,
@@ -123,14 +121,14 @@ const Anchor = () => {
           <SelectCurd
             background={"navajowhite"}
             setResolution={setResolution}
-            anchorType={"UserAnchor"}
+            anchorType={ANCHOR_DB.USER_ANCHOR}
             setUser={setUser}
           />
         </Col>
         <Col xs={12} lg={12} style={{ marginBottom: "30px" }}>
           <SelectCurd
             background={"SlateBlue"}
-            anchorType={"DomainAnchor"}
+            anchorType={ANCHOR_DB.DOMAIN_ANCHOR}
             setDomain={setDomain}
             setResolution={setResolution}
             domainValue={domainValue}
@@ -139,7 +137,7 @@ const Anchor = () => {
         <Col xs={12} lg={12} style={{ marginBottom: "30px" }}>
           <SelectCurd
             background={"violet"}
-            anchorType={"FlowAnchor"}
+            anchorType={ANCHOR_DB.FLOW_ANCHOR}
             setFlow={setFlow}
             setResolution={setResolution}
             flowValue={flowValue}
@@ -148,7 +146,7 @@ const Anchor = () => {
         <Col xs={12} lg={12} style={{ marginBottom: "30px" }}>
           <SelectCurd
             background={"cyan"}
-            anchorType={"Entity_Anchor"}
+            anchorType={ANCHOR_DB.ENTITY_ANCHOR}
             setEntity={setEntity}
             setResolution={setResolution}
             entityValue={entityValue}
